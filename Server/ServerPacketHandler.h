@@ -15,7 +15,7 @@ struct BuffData
 class ServerPacketHandler
 {
 public:
-	static void HandlePacket(BYTE* buffer, int32 len);
+	static void HandlePacket(GameSessionRef session, BYTE* buffer, int32 len);
 
 	// ¹Þ±â
 	

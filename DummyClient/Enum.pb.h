@@ -74,6 +74,85 @@ inline bool PlayerType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerType>(
     PlayerType_descriptor(), name, value);
 }
+enum OBJECT_TYPE : int {
+  OBJECT_TYPE_NONE = 0,
+  OBJECT_TYPE_PLAYER = 1,
+  OBJECT_TYPE_MONSTER = 2,
+  OBJECT_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  OBJECT_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool OBJECT_TYPE_IsValid(int value);
+constexpr OBJECT_TYPE OBJECT_TYPE_MIN = OBJECT_TYPE_NONE;
+constexpr OBJECT_TYPE OBJECT_TYPE_MAX = OBJECT_TYPE_MONSTER;
+constexpr int OBJECT_TYPE_ARRAYSIZE = OBJECT_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* OBJECT_TYPE_descriptor();
+template<typename T>
+inline const std::string& OBJECT_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, OBJECT_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function OBJECT_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    OBJECT_TYPE_descriptor(), enum_t_value);
+}
+inline bool OBJECT_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, OBJECT_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<OBJECT_TYPE>(
+    OBJECT_TYPE_descriptor(), name, value);
+}
+enum OBJECT_STATE_TYPE : int {
+  OBJECT_STATE_TYPE_IDLE = 0,
+  OBJECT_STATE_TYPE_MOVE = 1,
+  OBJECT_STATE_TYPE_SKILL = 2,
+  OBJECT_STATE_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  OBJECT_STATE_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool OBJECT_STATE_TYPE_IsValid(int value);
+constexpr OBJECT_STATE_TYPE OBJECT_STATE_TYPE_MIN = OBJECT_STATE_TYPE_IDLE;
+constexpr OBJECT_STATE_TYPE OBJECT_STATE_TYPE_MAX = OBJECT_STATE_TYPE_SKILL;
+constexpr int OBJECT_STATE_TYPE_ARRAYSIZE = OBJECT_STATE_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* OBJECT_STATE_TYPE_descriptor();
+template<typename T>
+inline const std::string& OBJECT_STATE_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, OBJECT_STATE_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function OBJECT_STATE_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    OBJECT_STATE_TYPE_descriptor(), enum_t_value);
+}
+inline bool OBJECT_STATE_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, OBJECT_STATE_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<OBJECT_STATE_TYPE>(
+    OBJECT_STATE_TYPE_descriptor(), name, value);
+}
+enum DIR_TYPE : int {
+  DIR_TYPE_UP = 0,
+  DIR_TYPE_DOWN = 1,
+  DIR_TYPE_LEFT = 2,
+  DIR_TYPE_RIGHT = 3,
+  DIR_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  DIR_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool DIR_TYPE_IsValid(int value);
+constexpr DIR_TYPE DIR_TYPE_MIN = DIR_TYPE_UP;
+constexpr DIR_TYPE DIR_TYPE_MAX = DIR_TYPE_RIGHT;
+constexpr int DIR_TYPE_ARRAYSIZE = DIR_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* DIR_TYPE_descriptor();
+template<typename T>
+inline const std::string& DIR_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, DIR_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function DIR_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    DIR_TYPE_descriptor(), enum_t_value);
+}
+inline bool DIR_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, DIR_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<DIR_TYPE>(
+    DIR_TYPE_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -100,6 +179,21 @@ template <> struct is_proto_enum< ::Protocol::PlayerType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::PlayerType>() {
   return ::Protocol::PlayerType_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::OBJECT_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::OBJECT_TYPE>() {
+  return ::Protocol::OBJECT_TYPE_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::OBJECT_STATE_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::OBJECT_STATE_TYPE>() {
+  return ::Protocol::OBJECT_STATE_TYPE_descriptor();
+}
+template <> struct is_proto_enum< ::Protocol::DIR_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Protocol::DIR_TYPE>() {
+  return ::Protocol::DIR_TYPE_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

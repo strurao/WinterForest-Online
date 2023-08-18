@@ -4,7 +4,7 @@
 #include "BufferWriter.h"
 
 
-void ServerPacketHandler::HandlePacket(BYTE* buffer, int32 len)
+void ServerPacketHandler::HandlePacket(GameSessionRef session, BYTE* buffer, int32 len)
 {
 	BufferReader br(buffer, len);
 
