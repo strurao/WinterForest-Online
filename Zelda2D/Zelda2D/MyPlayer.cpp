@@ -31,7 +31,7 @@ void MyPlayer::Tick()
 {
 	Super::Tick();
 
-	SyncToServer();
+	// SyncToServer();
 }
 
 void MyPlayer::Render(HDC hdc)
@@ -144,6 +144,7 @@ void MyPlayer::TickSkill()
 	Super::TickSkill();
 }
 
+/*
 void MyPlayer::SyncToServer()
 {
 	if (_dirtyFlag == false)
@@ -152,3 +153,4 @@ void MyPlayer::SyncToServer()
 	SendBufferRef sendBuffer = ClientPacketHandler::Make_C_Move();
 	GET_SINGLE(NetworkManager)->SendPacket(sendBuffer);
 }
+*/

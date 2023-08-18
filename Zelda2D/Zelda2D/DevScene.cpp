@@ -18,6 +18,7 @@
 #include "SoundManager.h"
 #include "Sound.h"
 #include "Monster.h"
+#include "MyPlayer.h"
 
 DevScene::DevScene()
 {
@@ -66,7 +67,7 @@ void DevScene::Init()
 	GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.wav");
 	GET_SINGLE(ResourceManager)->LoadSound(L"Attack", L"Sound\\Sword.wav");
 
-	SpawnObjectAtRandomPos<Player>();
+	SpawnObjectAtRandomPos<MyPlayer>();
 	//SpawnObjectAtRandomPos<Monster>();
 	SpawnObject<Monster>(Vec2Int{ 7, 7 });
 
