@@ -56,3 +56,23 @@ SendBufferRef ServerPacketHandler::Make_S_EnterGame()
 
 	return MakeSendBuffer(pkt, S_EnterGame);
 }
+
+SendBufferRef ServerPacketHandler::Make_S_MyPlayer(const Protocol::ObjectInfo& info)
+{
+	Protocol::S_MyPlayer pkt;
+
+	Protocol::ObjectInfo* objectInfo = pkt.mutable_info();
+	*objectInfo = info;
+
+	return MakeSendBuffer(pkt, S_MyPlayer);
+}
+
+SendBufferRef ServerPacketHandler::Make_S_AddObject(const Protocol::S_AddObject& pkt)
+{
+	return MakeSendBuffer(pkt, S_AddObject);
+}
+
+SendBufferRef ServerPacketHandler::Make_S_RemoveObject(const Protocol::S_RemoveObject& pkt)
+{
+	return MakeSendBuffer(pkt, S_RemoveObject);
+}
