@@ -8,14 +8,15 @@ void NetworkManager::Init()
 {
 	SocketUtils::Init();
 
-	ClientServiceRef service = make_shared<ClientService>(
+	_service = make_shared<ClientService>(
 		NetAddress(L"127.0.0.1", 7777),
 		make_shared<IocpCore>(),
 		[=]() { return CreateSession(); }, // TODO : SessionManager µî
 		1);
 
-	assert(service->Start());
+	assert(_service->Start());
 
+	/*
 	for (int32 i = 0; i < 5; i++)
 	{
 		GThreadManager->Launch([=]()
@@ -26,6 +27,7 @@ void NetworkManager::Init()
 				}
 			});
 	}
+	*/
 }
 
 void NetworkManager::Update()

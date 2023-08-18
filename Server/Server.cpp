@@ -38,15 +38,15 @@ int main()
 
 	char sendData[1000] = "Hello World";
 
-	while (true)
-	{
-		vector<BuffData> buffs{ BuffData {100, 1.5f}, BuffData{200, 2.3f}, BuffData {300, 0.7f } };
-		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_TEST(1001, 100, 10, buffs);
-		GSessionManager.Broadcast(sendBuffer);
+	//불필요한 브로드캐스팅
+	//while (true)
+	//{
+	//	vector<BuffData> buffs{ BuffData {100, 1.5f}, BuffData{200, 2.3f}, BuffData {300, 0.7f } };
+	//	SendBufferRef sendBuffer = ServerPacketHandler::Make_S_TEST(1001, 100, 10, buffs);
+	//	GSessionManager.Broadcast(sendBuffer);
 
-		this_thread::sleep_for(250ms);
-	}
-
+	//	this_thread::sleep_for(250ms);
+	//}
 
 	GThreadManager->Join();
 	

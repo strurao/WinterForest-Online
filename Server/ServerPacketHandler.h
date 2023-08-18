@@ -2,7 +2,8 @@
 
 enum
 {
-	S_TEST = 1
+	S_TEST = 1,
+	S_EnterGame=2,
 };
 
 struct BuffData
@@ -20,6 +21,7 @@ public:
 	
 	// º¸³»±â
 	static SendBufferRef Make_S_TEST(uint64 id, uint32 hp, uint16 attack, vector<BuffData> buffs);
+	static SendBufferRef Make_S_EnterGame();
 
 	template<typename T>
 	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
