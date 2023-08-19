@@ -1,5 +1,6 @@
 #pragma once
 class Scene;
+class MyPlayer;
 
 class SceneManager
 {
@@ -16,9 +17,16 @@ public:
 	void ChangeScene(SceneType sceneType);
 	Scene* GetCurrentScene() { return _scene; }
 
+	class DevScene* GetDevScene();
+
+	MyPlayer* GetMyPlayer() { return _myPlayer; }
+	uint64 GetMyPlayerId();
+	void SetMyPlayer(MyPlayer* myPlayer) { _myPlayer = myPlayer; }
 private:
 	Scene* _scene;
 	SceneType _sceneType = SceneType::None;
+
+	MyPlayer* _myPlayer = nullptr;
 
 public:
 	Vec2 GetCameraPos() { return _cameraPos; }

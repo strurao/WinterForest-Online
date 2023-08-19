@@ -18,6 +18,7 @@ public:
 public:
 	void AddObject(GameObjectRef gameObject);
 	void RemoveObject(uint64 id);
+	void BroadCast(SendBufferRef& sendBuffer);
 
 private:
 	map<uint64, PlayerRef> _players;

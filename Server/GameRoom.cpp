@@ -35,6 +35,10 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	session->player = player;
 	player->session = session;
 
+	// TEMP
+	player->info.set_posx(5);
+	player->info.set_posy(5);
+
 	// 입장한 클라에게 정보를 보내주기
 	{
 		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_MyPlayer(player->info);
@@ -44,6 +48,21 @@ void GameRoom::EnterRoom(GameSessionRef session)
 	// 모든 오브젝트 정보 전송
 	{
 		// TODO
+		Protocol::S_AddObject pkt;
+		for (auto& item : _players)
+		{
+			Protocol::ObjectInfo* info = pkt.add_object();
+			*info = item.second->info;
+		}
+
+		for (auto& item : _monsters)
+		{
+			Protocol::ObjectInfo* info = pkt.add_object();
+			*info = item.second->info;
+		}
+
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_AddObject(pkt);
+		session->Send(sendBuffer);
 	}
 
 	AddObject(player);
@@ -96,6 +115,15 @@ void GameRoom::AddObject(GameObjectRef gameObject)
 	gameObject->room = GetRoomRef();
 
 	// TODO 신규 오브젝트 정보 전송
+	{
+		Protocol::S_AddObject pkt;
+
+		Protocol::ObjectInfo* info = pkt.add_object();
+		*info = gameObject->info;
+
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_AddObject(pkt);
+		BroadCast(sendBuffer);
+	}
 }
 
 void GameRoom::RemoveObject(uint64 id)
@@ -117,4 +145,21 @@ void GameRoom::RemoveObject(uint64 id)
 	}
 
 	gameObject->room = nullptr;
+
+	// 오브젝트 삭제 전송
+	{
+		Protocol::S_RemoveObject pkt;
+		pkt.add_ids(id);
+
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_RemoveObject(pkt);
+		BroadCast(sendBuffer);
+	}
+}
+
+void GameRoom::BroadCast(SendBufferRef& sendBuffer)
+{
+	for (auto& item : _players)
+	{
+		item.second->session->Send(sendBuffer);
+	}
 }

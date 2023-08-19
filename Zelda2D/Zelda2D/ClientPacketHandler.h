@@ -4,6 +4,10 @@ enum
 {
 	S_TEST = 1,
 	S_EnterGame = 2,
+
+	S_MyPlayer = 4,
+	S_AddObject = 5,
+	S_RemoveObject = 6,
 };
 
 class ClientPacketHandler
@@ -14,6 +18,9 @@ public:
 	// 받기
 	static void Handle_S_TEST(ServerSessionRef session, BYTE* buffer, int32 len);
 	static void Handle_S_EnterGame(ServerSessionRef session, BYTE* buffer, int32 len);
+	static void Handle_S_MyPlayer(ServerSessionRef session, BYTE* buffer, int32 len);
+	static void Handle_S_AddObject(ServerSessionRef session, BYTE* buffer, int32 len);
+	static void Handle_S_RemoveObject(ServerSessionRef session, BYTE* buffer, int32 len);
 
 	// 보내기
 	template<typename T>
