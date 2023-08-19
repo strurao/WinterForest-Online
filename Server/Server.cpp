@@ -12,10 +12,12 @@ using namespace std;
 #include "GameSession.h"
 #include "GameSessionManager.h"
 #include "ServerPacketHandler.h"
+#include "GameRoom.h"
 
 int main()
 {
 	SocketUtils::Init();
+	GRoom->Init();
 
 	ServerServiceRef service = make_shared<ServerService>(
 		NetAddress(L"127.0.0.1", 7777),
@@ -25,16 +27,25 @@ int main()
 
 	assert(service->Start());
 
-	for (int32 i = 0; i < 5; i++)
+
+	while (true)
+	{
+		service->GetIocpCore()->Dispatch(0);
+		GRoom->Update();
+	}
+	/*
+	for (int32 i = 0; i < 1; i++)
 	{
 		GThreadManager->Launch([=]()
 			{
 				while (true)
 				{
-					service->GetIocpCore()->Dispatch();
+					service->GetIocpCore()->Dispatch(0);
+					GRoom->Update();
 				}
 			});
 	}
+	*/
 
 	char sendData[1000] = "Hello World";
 
