@@ -301,11 +301,11 @@ void DevScene::LoadTilemap()
 
 	_tilemapActor = actor;
 	{
-		auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_01");
+		auto* tm = GET_SINGLE(ResourceManager)->CreateTilemap(L"Tilemap_02");
 		tm->SetMapSize({ 63, 43 });
 		tm->SetTileSize(48);
 
-		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_01", L"Tilemap\\Tilemap_01.txt");
+		GET_SINGLE(ResourceManager)->LoadTilemap(L"Tilemap_02", L"Tilemap\\Tilemap_02.txt");
 
 		_tilemapActor->SetTilemap(tm);
 		_tilemapActor->SetShowDebug(false);
@@ -576,6 +576,8 @@ Vec2Int DevScene::GetRandomEmptyCellPos()
 
 void DevScene::TickMonsterSpawn()
 {
+	return;
+
 	if (_monsterCount < DESIRED_COUNT)
 		SpawnObjectAtRandomPos<Monster>();
 }

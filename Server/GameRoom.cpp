@@ -20,10 +20,21 @@ void GameRoom::Init()
 	monster->info.set_posx(8);
 	monster->info.set_posy(8);
 	AddObject(monster);
+
+	_tilemap.LoadFile(L"D:\\Programs\\VisualStudio\\source\\repos\\WinterForest\\Zelda2D\\Resources\\Tilemap\\Tilemap_02.txt");
 }
 
 void GameRoom::Update()
 {
+	for (auto& item : _players)
+	{
+		item.second->Update();
+	}
+
+	for (auto& item : _monsters)
+	{
+		item.second->Update();
+	}
 }
 
 void GameRoom::EnterRoom(GameSessionRef session)
@@ -180,4 +191,193 @@ void GameRoom::BroadCast(SendBufferRef& sendBuffer)
 	{
 		item.second->session->Send(sendBuffer);
 	}
+}
+
+//
+PlayerRef GameRoom::FindClosestPlayer(Vec2Int pos)
+{
+	float best = FLT_MAX;
+	PlayerRef ret = nullptr;
+
+	for (auto& item : _players)
+	{
+		PlayerRef player = item.second;
+		if (player)
+		{
+			Vec2Int dir = pos - player->GetCellPos();
+			float dist = dir.LengthSquared();
+			if (dist < best)
+			{
+				dist = best;
+				ret = player;
+			}
+		}
+	}
+
+	return ret;
+}
+
+bool GameRoom::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 maxDepth /*= 10*/)
+{
+	int32 depth = abs(src.y - dest.y) + abs(src.x - dest.x);
+	if (depth >= maxDepth)
+		return false;
+
+	priority_queue<PQNode, vector<PQNode>, greater<PQNode>> pq;
+	map<Vec2Int, int32> best;
+	map<Vec2Int, Vec2Int> parent;
+
+	// 초기값
+	{
+		int32 cost = abs(dest.y - src.y) + abs(dest.x - src.x);
+
+		pq.push(PQNode(cost, src));
+		best[src] = cost;
+		parent[src] = src;
+	}
+
+	Vec2Int front[4] =
+	{
+		{0, -1},
+		{0, 1},
+		{-1, 0},
+		{1, 0},
+	};
+
+	bool found = false;
+
+	while (pq.empty() == false)
+	{
+		// 제일 좋은 후보를 찾는다
+		PQNode node = pq.top();
+		pq.pop();
+
+		// 더 짧은 경로를 뒤늦게 찾았다면 스킵
+		if (best[node.pos] < node.cost)
+			continue;
+
+		// 목적지에 도착했으면 바로 종료
+		if (node.pos == dest)
+		{
+			found = true;
+			break;
+		}
+
+		// 방문
+		for (int32 dir = 0; dir < 4; dir++)
+		{
+			Vec2Int nextPos = node.pos + front[dir];
+
+			if (CanGo(nextPos) == false)
+				continue;
+
+			int32 depth = abs(src.y - nextPos.y) + abs(src.x - nextPos.x);
+			if (depth >= maxDepth)
+				continue;
+
+			int32 cost = abs(dest.y - nextPos.y) + abs(dest.x - nextPos.x);
+			int32 bestValue = best[nextPos];
+			if (bestValue != 0)
+			{
+				// 다른 경로에서 더 빠른 길을 찾았으면 스킵
+				if (bestValue <= cost)
+					continue;
+			}
+
+			// 예약 진행
+			best[nextPos] = cost;
+			pq.push(PQNode(cost, nextPos));
+			parent[nextPos] = node.pos;
+		}
+	}
+
+	if (found == false)
+	{
+		float bestScore = FLT_MAX;
+
+		for (auto& item : best)
+		{
+			Vec2Int pos = item.first;
+			int32 score = item.second;
+
+			// 동점이라면, 최초 위치에서 가장 덜 이동하는 쪽으로
+			if (bestScore == score)
+			{
+				int32 dist1 = abs(dest.x - src.x) + abs(dest.y - src.y);
+				int32 dist2 = abs(pos.x - src.x) + abs(pos.y - src.y);
+				if (dist1 > dist2)
+					dest = pos;
+			}
+			else if (bestScore > score)
+			{
+				dest = pos;
+				bestScore = score;
+			}
+		}
+	}
+
+	path.clear();
+	Vec2Int pos = dest;
+
+	while (true)
+	{
+		path.push_back(pos);
+
+		// 시작점
+		if (pos == parent[pos])
+			break;
+
+		pos = parent[pos];
+	}
+
+	std::reverse(path.begin(), path.end());
+	return true;
+}
+
+bool GameRoom::CanGo(Vec2Int cellPos)
+{
+	Tile* tile = _tilemap.GetTileAt(cellPos);
+	if (tile == nullptr)
+		return false;
+
+	// 몬스터 충돌?
+	if (GetGameObjectAt(cellPos) != nullptr)
+		return false;
+
+	return tile->value != 1;
+}
+
+Vec2Int GameRoom::GetRandomEmptyCellPos()
+{
+	Vec2Int ret = { -1, -1 };
+
+	Vec2Int size = _tilemap.GetMapSize();
+
+	// 몇 번 시도?
+	while (true)
+	{
+		int32 x = rand() % size.x;
+		int32 y = rand() % size.y;
+		Vec2Int cellPos{ x, y };
+
+		if (CanGo(cellPos))
+			return cellPos;
+	}
+}
+
+GameObjectRef GameRoom::GetGameObjectAt(Vec2Int cellPos)
+{
+	for (auto& item : _players)
+	{
+		if (item.second->GetCellPos() == cellPos)
+			return item.second;
+	}
+
+	for (auto& item : _monsters)
+	{
+		if (item.second->GetCellPos() == cellPos)
+			return item.second;
+	}
+
+	return nullptr;
 }
