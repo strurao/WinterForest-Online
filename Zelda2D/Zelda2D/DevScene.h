@@ -67,7 +67,7 @@ public:
 	void Handle_S_RemoveObject(Protocol::S_RemoveObject& pkt);
 
 public:
-	GameObject* GetObject(uint64 id);
+	GameObject* Get_Object(uint64 id);
 
 	Player* FindClosestPlayer(Vec2Int pos);
 

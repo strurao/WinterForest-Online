@@ -2,7 +2,8 @@
 #include "ServerPacketHandler.h"
 #include "BufferReader.h"
 #include "BufferWriter.h"
-
+#include "GameSession.h"
+#include "GameRoom.h"
 
 void ServerPacketHandler::HandlePacket(GameSessionRef session, BYTE* buffer, int32 len)
 {
@@ -13,9 +14,26 @@ void ServerPacketHandler::HandlePacket(GameSessionRef session, BYTE* buffer, int
 
 	switch (header.id)
 	{
+	case C_Move:
+		Handle_C_Move(session, buffer, len);
+		break;
 	default:
 		break;
 	}
+}
+
+void ServerPacketHandler::Handle_C_Move(GameSessionRef session, BYTE* buffer, int32 len)
+{
+	PacketHeader* header = (PacketHeader*)buffer;
+	// uint64 id = header->id;
+	uint64 size = header->size;
+
+	Protocol::C_Move pkt;
+	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+
+	GameRoomRef room = session->gameRoom.lock();
+	if (room)
+		room->Handle_C_Move(pkt);
 }
 
 SendBufferRef ServerPacketHandler::Make_S_TEST(uint64 id, uint32 hp, uint16 attack, vector<BuffData> buffs)
@@ -75,4 +93,14 @@ SendBufferRef ServerPacketHandler::Make_S_AddObject(const Protocol::S_AddObject&
 SendBufferRef ServerPacketHandler::Make_S_RemoveObject(const Protocol::S_RemoveObject& pkt)
 {
 	return MakeSendBuffer(pkt, S_RemoveObject);
+}
+
+SendBufferRef ServerPacketHandler::Make_S_Move(const Protocol::ObjectInfo& info)
+{
+	Protocol::S_Move pkt;
+
+	Protocol::ObjectInfo* objectInfo = pkt.mutable_info();
+	*objectInfo = info;
+
+	return MakeSendBuffer(pkt, S_Move);
 }

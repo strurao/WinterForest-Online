@@ -94,6 +94,24 @@ GameObjectRef GameRoom::FindObject(uint64 id)
 	return nullptr;
 }
 
+void GameRoom::Handle_C_Move(Protocol::C_Move& pkt)
+{
+	uint64 id = pkt.info().objectid();
+	GameObjectRef gameObject = FindObject(id);
+	if (gameObject == nullptr)
+		return;
+
+	gameObject->info.set_state(pkt.info().state());
+	gameObject->info.set_dir(pkt.info().dir());
+	gameObject->info.set_posx(pkt.info().posx());
+	gameObject->info.set_posy(pkt.info().posy());
+
+	{
+		SendBufferRef sendBuffer = ServerPacketHandler::Make_S_Move(pkt.info());
+		BroadCast(sendBuffer);
+	}
+}
+
 void GameRoom::AddObject(GameObjectRef gameObject)
 {
 	uint64 id = gameObject->info.objectid();

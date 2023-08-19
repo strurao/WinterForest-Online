@@ -345,13 +345,13 @@ void DevScene::Handle_S_RemoveObject(Protocol::S_RemoveObject& pkt)
 	{
 		int32 id = pkt.ids(i);
 	
-		GameObject* object = GetObject(id);
+		GameObject* object = Get_Object(id);
 		if (object)
 			RemoveActor(object);
 	}
 }
 
-GameObject* DevScene::GetObject(uint64 id)
+GameObject* DevScene::Get_Object(uint64 id)
 {
 	for (Actor* actor : _actors[LAYER_OBJECT])
 	{

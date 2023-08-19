@@ -34,7 +34,7 @@ public:
 	void SetObjectID(int64 id) { info.set_objectid(id); }
 
 protected:
-	bool _dirtyFlag = false;
+	bool _dirtyFlag = false; // 바뀐것이 있는지 state, direction, cell position 중 하나라도 바뀌면 true로 간주
 
 public:
 	Protocol::ObjectInfo info;

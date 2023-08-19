@@ -26,8 +26,10 @@ void ClientPacketHandler::HandlePacket(ServerSessionRef session, BYTE* buffer, i
 	case S_RemoveObject:
 		Handle_S_RemoveObject(session, buffer, len);
 		break;
+	case S_Move:
+		Handle_S_Move(session, buffer, len);
+		break;
 	}
-
 }
 
 void ClientPacketHandler::Handle_S_TEST(ServerSessionRef session, BYTE* buffer, int32 len)
@@ -111,4 +113,48 @@ void ClientPacketHandler::Handle_S_RemoveObject(ServerSessionRef session, BYTE* 
 
 	Protocol::S_RemoveObject pkt;
 	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+
+	DevScene* scene = GET_SINGLE(SceneManager)->GetDevScene();
+	if (scene)
+		scene->Handle_S_RemoveObject(pkt);
+}
+
+void ClientPacketHandler::Handle_S_Move(ServerSessionRef session, BYTE* buffer, int32 len)
+{
+	PacketHeader* header = (PacketHeader*)buffer;
+	//uint16 id = header->id;
+	uint16 size = header->size;
+
+	Protocol::S_Move pkt;
+	pkt.ParseFromArray(&header[1], size - sizeof(PacketHeader));
+
+	//contents
+
+	const Protocol::ObjectInfo& info = pkt.info();
+	DevScene* scene = GET_SINGLE(SceneManager)->GetDevScene();
+	if (scene)
+	{
+		uint64 myPlayerId = GET_SINGLE(SceneManager)->GetMyPlayerId();
+		if (myPlayerId == info.objectid())
+			return;
+
+		GameObject* gameObject = scene->Get_Object(info.objectid());
+		if (gameObject)
+		{
+			gameObject->SetDir(info.dir());
+			gameObject->SetState(info.state());
+			gameObject->SetCellPos(Vec2Int{ info.posx(), info.posy() });
+		}
+	}
+}
+
+SendBufferRef ClientPacketHandler::Make_C_Move()
+{
+	Protocol::C_Move pkt;
+
+	MyPlayer* myPlayer = GET_SINGLE(SceneManager)->GetMyPlayer();
+
+	*pkt.mutable_info() = myPlayer->info;
+	
+	return MakeSendBuffer(pkt, C_Move);
 }

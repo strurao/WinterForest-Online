@@ -8,6 +8,9 @@ enum
 	S_MyPlayer = 4,
 	S_AddObject = 5,
 	S_RemoveObject = 6,
+
+	C_Move = 10,
+	S_Move = 11,
 };
 
 class ClientPacketHandler
@@ -21,8 +24,10 @@ public:
 	static void Handle_S_MyPlayer(ServerSessionRef session, BYTE* buffer, int32 len);
 	static void Handle_S_AddObject(ServerSessionRef session, BYTE* buffer, int32 len);
 	static void Handle_S_RemoveObject(ServerSessionRef session, BYTE* buffer, int32 len);
-
+	static void Handle_S_Move(ServerSessionRef session, BYTE* buffer, int32 len);
 	// º¸³»±â
+	static SendBufferRef Make_C_Move();
+
 	template<typename T>
 	static SendBufferRef MakeSendBuffer(T& pkt, uint16 pktId)
 	{

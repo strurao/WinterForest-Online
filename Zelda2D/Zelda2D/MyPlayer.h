@@ -20,7 +20,7 @@ private:
 	virtual void TickMove() override;
 	virtual void TickSkill() override;
 
-	// void SyncToServer();
+	void SyncToServer();
 
 private:
 	bool _keyPressed = false;
