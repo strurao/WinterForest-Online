@@ -95,6 +95,7 @@ Creature* Scene::GetCreatureAt(Vec2Int cellPos)
 {
 	for (Actor* actor : _actors[LAYER_OBJECT])
 	{
+		// GameObjectType
 		Creature* creature = dynamic_cast<Creature*>(actor);
 		if (creature && creature->GetCellPos() == cellPos)
 			return creature;

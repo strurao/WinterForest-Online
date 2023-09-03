@@ -13,6 +13,7 @@ using uint64 = unsigned __int64;
 
 using ServerSessionRef = std::shared_ptr<class ServerSession>;
 
+
 struct Vector
 {
 	Vector() {}
@@ -53,6 +54,12 @@ struct Vector
 	{
 		x -= other.x;
 		y -= other.y;
+	}
+
+	void operator==(const Vector& other)
+	{
+		x == other.x;
+		y == other.y;
 	}
 
 	void operator*=(float ratio)
@@ -141,7 +148,7 @@ struct VectorInt
 		return y > other.y;
 	}
 
-	bool operator==(const VectorInt& other)
+	bool operator==(const VectorInt& other) const
 	{
 		return x == other.x && y == other.y;
 	}

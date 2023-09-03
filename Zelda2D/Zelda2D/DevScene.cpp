@@ -432,7 +432,7 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 			continue;
 
 		// 목적지에 도착했으면 바로 종료
-		if (node.pos == dest)
+		if (bool(node.pos == dest))
 		{
 			found = true;
 			break;
@@ -446,7 +446,7 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 			if (CanGo(nextPos) == false)
 				continue;
 
-			int32 depth = abs(src.y - nextPos.y) + abs(src.x - nextPos.x);
+			int32 depth = int32(abs(src.y - nextPos.y) + abs(src.x - nextPos.x));
 			if (depth >= maxDepth)
 				continue;
 
