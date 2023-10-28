@@ -23,6 +23,7 @@ bool IocpCore::Register(IocpObjectRef iocpObject)
 	return ::CreateIoCompletionPort(iocpObject->GetHandle(), _iocpHandle, /*key*/0, 0);
 }
 
+// 완료된 작업을 IOCP 큐에서 꺼내고 실행한다
 bool IocpCore::Dispatch(uint32 timeoutMs)
 {
 	DWORD numOfBytes = 0;
