@@ -69,7 +69,7 @@ HANDLE Listener::GetHandle()
 
 void Listener::Dispatch(IocpEvent* acceptEvent, int32 numOfBytes)
 {
-	assert(acceptEvent->type == EventType::Accept);
+	assert(acceptEvent->type == EventType::Accept); // 잘못된 상황인지?
 	ProcessAccept(acceptEvent);
 }
 
@@ -92,6 +92,7 @@ void Listener::RegisterAccept(IocpEvent* acceptEvent)
 	}
 }
 
+// 작업을 해보겠다!
 void Listener::ProcessAccept(IocpEvent* acceptEvent)
 {
 	SessionRef session = acceptEvent->session;
