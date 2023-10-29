@@ -22,10 +22,10 @@ public:
 	int32			FreeSize() { return _capacity - _writePos; }
 
 private:
-	int32			_capacity = 0;
-	int32			_bufferSize = 0;
-	int32			_readPos = 0;
-	int32			_writePos = 0;
+	int32			_capacity = 0; // 전체 버퍼 용량
+	int32			_bufferSize = 0; // 남은 버퍼 용량
+	int32			_readPos = 0; // 커서
+	int32			_writePos = 0; // 커서
 	vector<BYTE>	_buffer;
 };
 
