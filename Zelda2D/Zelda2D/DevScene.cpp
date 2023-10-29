@@ -294,6 +294,7 @@ void DevScene::LoadEffect()
 	}
 }
 
+/* ≈∏¿œ ∏  */
 void DevScene::LoadTilemap()
 {
 	TilemapActor* actor = new TilemapActor();
@@ -576,7 +577,7 @@ Vec2Int DevScene::GetRandomEmptyCellPos()
 
 void DevScene::TickMonsterSpawn()
 {
-	return;
+	// return;
 
 	if (_monsterCount < DESIRED_COUNT)
 		SpawnObjectAtRandomPos<Monster>();

@@ -80,7 +80,7 @@ public:
 private:
 	void TickMonsterSpawn();
 
-	const int32 DESIRED_COUNT = 1;
+	const int32 DESIRED_COUNT = 20;
 	class TilemapActor* _tilemapActor = nullptr;
 	int32 _monsterCount = 0;
 };
