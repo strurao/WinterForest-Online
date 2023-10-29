@@ -12,6 +12,7 @@ class Service;
 
 class Session : public IocpObject
 {
+	// friend 클래스는 private 멤버에 접근할 수 있다.
 	friend class Listener;
 	friend class IocpCore;
 	friend class Service;
@@ -49,11 +50,12 @@ private:
 
 private:
 	/* 전송 관련 */
+	// 낚싯대 던지기
 	bool				RegisterConnect();
 	bool				RegisterDisconnect();
 	void				RegisterRecv();
 	void				RegisterSend();
-
+	// 물고기 끄집어내서 처리
 	void				ProcessConnect();
 	void				ProcessDisconnect();
 	void				ProcessRecv(int32 numOfBytes);
@@ -86,7 +88,8 @@ private:
 
 private:
 	/* IocpEvent 재사용 */
-	IocpEvent		_connectEvent{ EventType::Connect };
+	// 이벤트 타입 다르게~
+	IocpEvent		_connectEvent{ EventType::Connect }; 
 	IocpEvent		_disconnectEvent{ EventType::Disconnect };
 	IocpEvent		_recvEvent{ EventType::Recv };
 	IocpEvent		_sendEvent{ EventType::Send };

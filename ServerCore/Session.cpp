@@ -56,11 +56,13 @@ void Session::Disconnect(const WCHAR* cause)
 	RegisterDisconnect();
 }
 
-HANDLE Session::GetHandle()
+/* 소켓 번호 반환 */
+HANDLE Session::GetHandle() 
 {
 	return reinterpret_cast<HANDLE>(_socket);
 }
 
+/* EventType에 따라 다르게 처리해주도록 case 를 나눠주었다. */
 void Session::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 {
 	switch (iocpEvent->type)
