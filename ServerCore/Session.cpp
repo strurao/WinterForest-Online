@@ -326,13 +326,13 @@ PacketSession::~PacketSession()
 // [size(2)][id(2)][data....][size(2)][id(2)][data....]
 int32 PacketSession::OnRecv(BYTE* buffer, int32 len)
 {
-	int32 processLen = 0;
+	int32 processLen = 0; // 커서
 
 	while (true)
 	{
-		int32 dataSize = len - processLen;
+		int32 dataSize = len - processLen; // 지금까지 남은 데이터의 크기 = len - 진행한 프로세스
 		// 최소한 헤더는 파싱할 수 있어야 한다
-		if (dataSize < sizeof(PacketHeader))
+		if (dataSize < sizeof(PacketHeader)) // 4byte
 			break;
 
 		PacketHeader header = *(reinterpret_cast<PacketHeader*>(&buffer[processLen]));

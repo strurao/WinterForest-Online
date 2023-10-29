@@ -2,7 +2,7 @@
 
 enum
 {
-	S_TEST = 1,
+	S_TEST = 1, // 테스트 패킷
 	S_EnterGame=2,
 
 	S_MyPlayer = 4,

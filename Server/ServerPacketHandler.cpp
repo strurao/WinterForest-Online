@@ -5,6 +5,7 @@
 #include "GameSession.h"
 #include "GameRoom.h"
 
+// 패킷 아이디에 따라 분기 처리
 void ServerPacketHandler::HandlePacket(GameSessionRef session, BYTE* buffer, int32 len)
 {
 	BufferReader br(buffer, len);
@@ -36,9 +37,11 @@ void ServerPacketHandler::Handle_C_Move(GameSessionRef session, BYTE* buffer, in
 		room->Handle_C_Move(pkt);
 }
 
+// 내가 서버고, 상대방에게 정보를 보내주고 싶다면
+// [ size | id ][ id hp attack ]
 SendBufferRef ServerPacketHandler::Make_S_TEST(uint64 id, uint32 hp, uint16 attack, vector<BuffData> buffs)
 {
-	Protocol::S_TEST pkt;
+	Protocol::S_TEST pkt; // proto 를 하나의 객체, 하나의 클래스라고 생각해도 좋다
 
 	pkt.set_id(10);
 	pkt.set_hp(100);
