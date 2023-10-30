@@ -14,7 +14,7 @@
 
 ## 기능 🕹
 - 2D TileMap Top-down 게임이며 플레이어와 몬스터는 공격 및 이동 기능이 가능하고, 플레이어를 쫓아오고 공격하는 뱀 몬스터에게 공격을 당하거나 가할 수 있습니다.
-  - ``State Pattern`` 으로 ``Creature (Player, Monster)`` 의 ``State`` 정보 (IDLE, MOVE, SKILL) 와 ``Direction`` 정보 (UP, DOWN, LEFT, RIGHT) 에 따라 로직을 처리해주었습니다.
+  - ``State Pattern`` 으로 ``Creature`` (Player, Monster) 의 ``State`` 정보 (IDLE, MOVE, SKILL) 와 ``Direction`` 정보 (UP, DOWN, LEFT, RIGHT) 에 따라 로직을 처리해주었습니다.
   - 뱀 몬스터는 ``A*`` 알고리즘으로 플레이어를 쫓아오는 길을 탐색하고 서버에서 연산하여 클라이언트에게 ``Broadcast`` 해줍니다.
 
 - IOCP 모델 서버
