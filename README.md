@@ -34,4 +34,3 @@
 
 ## 소개 링크 🎬
 - [Youtube](https://youtu.be/iOhF693v0tQ?si=GSckKGGXk10lnnF2)
-![image](https://github.com/strurao/WinterForest-Online/assets/126440235/c55b81cb-56ec-46c0-b619-b99e4a5a314f)
