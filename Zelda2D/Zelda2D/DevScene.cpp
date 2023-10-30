@@ -387,44 +387,46 @@ Player* DevScene::FindClosestPlayer(Vec2Int pos)
 	return ret;
 }
 
-// A* -> Dijikstra -> BFS -> Graph
+// A*
 // PQ
-bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 maxDepth)
+bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 maxDepth /* = 10 */)
 {
 	// F = G + H
 	// F = 최종 점수(작을 수록 좋음)
 	// G = 시작점에서 해당 좌표까지 이동하는데 드는 비용
 	// H = 목적지에서 해당 좌표까지 이동하는데 드는 비용
+
+	// 너무 멀리는 갈 필요가 없다
 	int32 depth = abs(src.y - dest.y) + abs(src.x - dest.x);
 	if (depth >= maxDepth)
 		return false;
 
 	priority_queue<PQNode, vector<PQNode>, greater<PQNode>> pq;
-	map<Vec2Int, int32> best;
-	map<Vec2Int, Vec2Int> parent;
+	map<Vec2Int, int32> best; // 0 초기값
+	map<Vec2Int, Vec2Int> parent; // 0 초기값
 
 	// 초기값
 	{
 		int32 cost = abs(dest.y - src.y) + abs(dest.x - src.x);
 
 		pq.push(PQNode(cost, src));
-		best[src] = cost;
+		best[src] = cost; // closed 도 쓰고 싶으면 따로 써도됨
 		parent[src] = src;
 	}
 
 	Vec2Int front[4] =
-	{
-		{0, -1},
-		{0, 1},
-		{-1, 0},
-		{1, 0},
+	{	// {열column, 행row}
+		{0, -1}, // 앞
+		{0, 1}, // 뒤
+		{-1, 0}, // 좌
+		{1, 0}, // 우
 	};
 
 	bool found = false;
 
-	while (pq.empty() == false)
+	while (pq.empty() == false) // 큐가 비어있을 때까지
 	{
-		// 제일 좋은 후보를 찾는다
+		// 예약으로 넣어둔 아이들 중, 제일 좋은 후보를 찾는다
 		PQNode node = pq.top();
 		pq.pop();
 
@@ -447,6 +449,7 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 			if (CanGo(nextPos) == false)
 				continue;
 
+			// 너무 멀리는 가지 못하도록
 			int32 depth = int32(abs(src.y - nextPos.y) + abs(src.x - nextPos.x));
 			if (depth >= maxDepth)
 				continue;
@@ -465,9 +468,9 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 			pq.push(PQNode(cost, nextPos));
 			parent[nextPos] = node.pos;
 		}
-	}
+	} // while (pq.empty() = false) END
 
-	if (found == false)
+	if (found == false) // 길이 막혀있다, 근사한 최소비용 위치로라도 찾아준다
 	{
 		float bestScore = FLT_MAX;
 
@@ -492,6 +495,7 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 		}
 	}
 
+	// 길이 막혀있지 않다면, 경로를 채워주기 위해
 	path.clear();
 	Vec2Int pos = dest;
 
@@ -499,16 +503,17 @@ bool DevScene::FindPath(Vec2Int src, Vec2Int dest, vector<Vec2Int>& path, int32 
 	{
 		path.push_back(pos);
 
-		// 시작점
+		// 시작점 도달?
 		if (pos == parent[pos])
 			break;
-
+		// 길을 뒤로뒤로 추적 추적 해서 시작 위치까지 돌아가고
 		pos = parent[pos];
 	}
 
+	// 최종적으로 뒤바꿔준다
 	std::reverse(path.begin(), path.end());
 	return true;
-}
+} // FindPath() END
 
 bool DevScene::CanGo(Vec2Int cellPos)
 {
