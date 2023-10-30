@@ -12,6 +12,9 @@
 - ServerCore : IOCP 서버 라이브러리
 - Zelda2D : 클라이언트 로직
 
+## 소개 링크 🎬
+- [Youtube](https://youtu.be/iOhF693v0tQ?si=GSckKGGXk10lnnF2)
+
 ## 기능 🕹
 - 2D TileMap Top-down 게임이며 플레이어와 몬스터는 공격 및 이동 기능이 가능하고, 플레이어를 쫓아오고 공격하는 뱀 몬스터에게 공격을 당하거나 가할 수 있습니다.
   - ``State Pattern`` 으로 ``Creature`` (Player, Monster) 의 ``State`` 정보 (IDLE, MOVE, SKILL) 와 ``Direction`` 정보 (UP, DOWN, LEFT, RIGHT) 에 따라 로직을 처리해주었습니다.
@@ -31,6 +34,3 @@
   - ``Google Protocol Buffers`` 를 사용하여 플레이어의 입장, 퇴장, 이동에 관한 프로토콜을 정의한 후 패킷의 직렬화/역직렬화를 해주고,
   - 서버와 클라이언트는 각각 ``ServerPacketHandler``, ``ClientPacketHandler`` 에서 분기처리와 파싱을 해줍니다.
 
-
-## 소개 링크 🎬
-- [Youtube](https://youtu.be/iOhF693v0tQ?si=GSckKGGXk10lnnF2)
