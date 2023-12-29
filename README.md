@@ -16,10 +16,10 @@
 - [Youtube](https://youtu.be/d590pbNcHdM)
 
 ## 내가 기여한 부분 🕹
-- Creature 상속 설계
+- `Creature` 상속 설계
   - ![image](https://github.com/strurao/WinterForest-Online/assets/126440235/e0417d96-78ac-4ed1-89c4-13f257d6fc5e)
 
-- 2D TileMap Top-down 게임이며 플레이어와 몬스터는 공격 및 이동 기능이 가능하고, 플레이어를 쫓아오고 공격하는 뱀 몬스터에게 공격을 당하거나 가할 수 있습니다.
+- 플레이어는 공격 및 이동 기능이 가능하고, 플레이어를 쫓아오고 공격하는 뱀 몬스터에게 공격을 당하거나 가할 수 있습니다.
   - ``State Pattern`` 으로 ``Creature`` (Player, Monster) 의 ``State`` 정보 (IDLE, MOVE, SKILL) 와 ``Direction`` 정보 (UP, DOWN, LEFT, RIGHT) 에 따라 로직을 처리해주었습니다.
 
 - IOCP 모델 서버
